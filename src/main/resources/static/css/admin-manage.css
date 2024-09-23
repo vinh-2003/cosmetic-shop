@@ -172,3 +172,10 @@ main table td {
 main .addProduct-container {
     background-color: white;
 }
+
+#image-preview {
+    display: block;
+    max-width: 100%;
+    max-height: 400px;
+    margin-top: 20px;
+}

@@ -19,7 +19,7 @@ public class Review {
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
                             CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "rating", nullable = false)

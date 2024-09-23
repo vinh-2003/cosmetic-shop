@@ -16,7 +16,7 @@ public class Cart {
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
                         CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "customer_id", nullable = false, unique = true)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
     @Column(name = "created_at", updatable = false)

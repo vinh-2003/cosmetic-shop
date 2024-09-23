@@ -26,8 +26,8 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "enable", nullable = false)
-    private Integer enable = 1;
+    @Column(name = "enabled", nullable = false)
+    private Integer enabled = 1;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
                 fetch = FetchType.EAGER)
@@ -99,12 +99,12 @@ public class User {
         this.phone = phone;
     }
 
-    public Integer getEnable() {
-        return enable;
+    public Integer getEnabled() {
+        return enabled;
     }
 
-    public void setEnable(Integer enable) {
-        this.enable = enable;
+    public void setEnabled(Integer enabled) {
+        this.enabled = enabled;
     }
 
     public List<Authority> getAuthorities() {

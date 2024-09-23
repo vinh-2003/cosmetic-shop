@@ -7,6 +7,7 @@
     <title>Thêm sản phẩm mới</title>
     <link rel="stylesheet" th:href="@{/css/admin-manage.css}">
     <script src="https://kit.fontawesome.com/d15b915a41.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/admin-manage.js}" defer></script>
 </head>
 
 <body>
@@ -77,6 +78,8 @@
                 <label for="image_url">Hình ảnh:</label><br>
                 <input type="file" id="image_url" name="image" accept="image/*" required><br><br>
             
+                <img id="image-preview" src="" alt="Image Preview">
+
                 <!-- Phần trăm giảm giá -->
                 <label for="discount_percentage">Phần trăm giảm giá:</label><br>
                 <input type="number" id="discount_percentage" th:field="*{discountPercentage}" step="0.01" value="0"><br><br>

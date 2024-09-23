@@ -48,7 +48,7 @@ public class ProductController {
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categories);
         model.addAttribute("tags", tags);
-        return "admin/products/create";
+        return "admin/products/create-form";
     }
 
     @PostMapping("/save")
@@ -74,6 +74,24 @@ public class ProductController {
             }
         }
         redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm thành công!");
+        return "redirect:/admin/products";
+    }
+
+    @GetMapping("/showUpdateProductForm")
+    public String showUpdateProductForm(@RequestParam("productId") Long id, Model model) {
+
+        Product product = productService.findById(id);
+
+        model.addAttribute("product", product);
+
+        return "admin/products/update-form";
+    }
+
+    @GetMapping("/delete")
+    public String deleteProduct(@RequestParam("productId") Long id) {
+
+        productService.deleteById(id);
+
         return "redirect:/admin/products";
     }
 }
