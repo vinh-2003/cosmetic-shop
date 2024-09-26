@@ -1,6 +1,8 @@
 package com.cosmeticshop.cosmetic_shop.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 @Entity
@@ -20,10 +22,12 @@ public class Banner {
 
     @Column(name = "start_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date startDate;
 
     @Column(name = "end_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date endDate;
 
     @Column(name = "created_at", updatable = false)

@@ -13,7 +13,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="index.html">
+            <a th:href="@{/home}">
                 <img th:src="@{/images/logo/logo.webp}" alt="logo">
             </a>
         </div>
@@ -23,9 +23,9 @@
                     <a class="dropbtn" href="#">Quản lý</a>
                     <ul class="dropdown-content">
                         <li><a href="/admin/dashboard">Bảng điều khiển</a></li>
-                        <li><a href="/admin/products">Quản lý sản phẩm</a></li>
-                        <li><a href="/admin/categories">Quản lý danh mục</a></li>
-                        <li><a href="/admin/orders">Quản lý đơn hàng</a></li>
+                        <li><a th:href="@{/admin/products}">Quản lý sản phẩm</a></li>
+                        <li><a th:href="@{/admin/categories}">Quản lý danh mục</a></li>
+                        <li><a th:href="@{/admin/banners}">Quản lý banner</a></li>
                         <li><a href="/admin/users">Quản lý người dùng</a></li>
                         <li><a href="/admin/reports">Báo cáo</a></li>
                     </ul>
@@ -42,60 +42,61 @@
         <div class="addProduct-container">
             <h1>Thêm sản phẩm mới</h1>
 
-            <form th:action="@{/admin/products/save}" th:object="${product}" 
-                        method="POST" enctype="multipart/form-data">
+            <form th:action="@{/admin/products/save}" th:object="${product}" method="POST"
+                enctype="multipart/form-data">
                 <!-- ID sản phẩm (ẩn) -->
                 <input type="hidden" th:field="*{productId}">
-            
+
                 <!-- Tên sản phẩm -->
                 <label for="name">Tên sản phẩm:</label><br>
                 <input type="text" id="name" th:field="*{name}" required><br><br>
-            
+
                 <!-- Mô tả sản phẩm -->
                 <label for="description">Mô tả:</label><br>
                 <textarea id="description" th:field="*{description}" rows="4" cols="50" required></textarea><br><br>
-            
+
                 <!-- Giá sản phẩm -->
                 <label for="price">Giá:</label><br>
                 <input type="number" id="price" th:field="*{price}" step="0.01" required><br><br>
-            
+
                 <!-- Số lượng trong kho -->
                 <label for="stock_quantity">Số lượng trong kho:</label><br>
                 <input type="number" id="stock_quantity" th:field="*{stockQuantity}" required><br><br>
-            
+
                 <!-- Danh mục sản phẩm -->
                 <label for="category">Danh mục:</label><br>
-                <select id="category" th:field="*{category}" th:each="category : ${categories}">
-                    <option th:value="${category.categoryId}" th:text="${category.name}"></option>
-                    <!-- Các danh mục khác -->
+                <select id="category" th:field="*{category}">
+                    <option th:each="category : ${categories}" th:value="${category.categoryId}"
+                        th:text="${category.name}"></option>
                 </select><br><br>
-            
+
                 <!-- Thương hiệu sản phẩm -->
                 <label for="brand">Thương hiệu:</label><br>
                 <input type="text" id="brand" th:field="*{brand}" required><br><br>
-            
+
                 <!-- Hình ảnh sản phẩm -->
                 <label for="image_url">Hình ảnh:</label><br>
                 <input type="file" id="image_url" name="image" accept="image/*" required><br><br>
-            
+
                 <img id="image-preview" src="" alt="Image Preview">
 
                 <!-- Phần trăm giảm giá -->
                 <label for="discount_percentage">Phần trăm giảm giá:</label><br>
-                <input type="number" id="discount_percentage" th:field="*{discountPercentage}" step="0.01" value="0"><br><br>
-            
+                <input type="number" id="discount_percentage" th:field="*{discountPercentage}" step="0.01"
+                    value="0"><br><br>
+
                 <!-- Tag sản phẩm -->
                 <label for="tag">Tag sản phẩm:</label><br>
-                <select id="tag" th:field="*{tag}" th:each="tag : ${tags}">
-                    <option th:value="${tag.tagId}" th:text="${tag.name}"></option>
+                <select id="tag" th:field="*{tag}">
+                    <option th:each="tag : ${tags}" th:value="${tag.tagId}" th:text="${tag.name}"></option>
                     <!-- Các tag khác -->
                 </select><br><br>
-            
+
                 <!-- Nút thêm sản phẩm -->
                 <button type="submit">Thêm sản phẩm</button>
             </form>
             <a th:href="@{/admin/products}">Trở lại danh sách sản phẩm</a>
-            
+
         </div>
     </main>
 </body>

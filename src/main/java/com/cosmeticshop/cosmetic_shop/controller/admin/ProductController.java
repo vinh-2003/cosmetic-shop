@@ -8,6 +8,7 @@ import com.cosmeticshop.cosmetic_shop.service.ProductService;
 import com.cosmeticshop.cosmetic_shop.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,8 +35,8 @@ public class ProductController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping()
-    public String showProductsForm(Model model) {
+    @GetMapping
+    public String getProductList(Model model) {
         List<Product> products = productService.findAll();
         model.addAttribute("products", products);
         return "admin/admin-product-list";
@@ -52,9 +53,11 @@ public class ProductController {
     }
 
     @PostMapping("/save")
+    @Transactional
     public String saveProduct(Model model, @ModelAttribute("product") Product product,
                                @RequestParam("image") MultipartFile file,
                                RedirectAttributes redirectAttributes) {
+
         if (!file.isEmpty()) {
             try {
                 StringBuilder fileNames = new StringBuilder();
@@ -62,18 +65,20 @@ public class ProductController {
                 fileNames.append(file.getOriginalFilename());
                 Files.write(fileNameAndPath, file.getBytes());
                 model.addAttribute("msg", "Uploaded images: " + fileNames.toString());
-
                 // Lưu đường dẫn của file vào product
                 product.setImageUrl("/images/products/" + fileNames);
-
-                // Lưu product vào cơ sở dữ liệu
-                 productService.save(product);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (product.getProductId() != null) {
+            Product existingProduct = productService.findById(product.getProductId());
+            if (existingProduct != null) {
+                product.setImageUrl(existingProduct.getImageUrl());
+            }
         }
-        redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm thành công!");
+        // Lưu product vào cơ sở dữ liệu
+        productService.save(product);
+        redirectAttributes.addFlashAttribute("message", "thành công!");
         return "redirect:/admin/products";
     }
 
@@ -82,12 +87,19 @@ public class ProductController {
 
         Product product = productService.findById(id);
 
+        List<Category> categories = categoryService.findAll();
+        List<Tag> tags = tagService.finddAll();
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("tags", tags);
+
         model.addAttribute("product", product);
 
         return "admin/products/update-form";
     }
 
     @GetMapping("/delete")
+    @Transactional
     public String deleteProduct(@RequestParam("productId") Long id) {
 
         productService.deleteById(id);

@@ -38,31 +38,25 @@
     </header>
     <main>
         <div class="product-container">
-            <h3>DANH SÁCH SẢN PHẨM</h3>
-            <a class="btnAdd" th:href="@{/admin/products/showCreateProductForm}"><i class="fa-solid fa-plus"></i>Thêm mới</a>
+            <h3>DANH SÁCH DANH MỤC</h3>
+            <a class="btnAdd" th:href="@{/admin/categories/showCreateCategoryForm}"><i class="fa-solid fa-plus"></i>Thêm mới</a>
             <table>
                 <thead>
                     <tr>
-                        <th>Tên sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Số lượng hàng tồn kho</th>
-                        <th>Danh mục</th>
-                        <th>Thương hiệu</th>
+                        <th>Tên danh mục</th>
+                        <th>Mô tả</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Dữ liệu sản phẩm sẽ được lặp qua ở đây -->
-                    <tr th:each="product : ${products}">
-                        <td th:text="${product.name}"></td>
-                        <td th:text="${product.price}"></td>
-                        <td th:text="${product.stockQuantity}"></td>
-                        <td th:text="${product.category.name}"></td>
-                        <td th:text="${product.brand}"></td>
+                    <tr th:each="category : ${categories}">
+                        <td th:text="${category.name}"></td>
+                        <td th:text="${category.description}"></td>
                         <td>
-                            <a class="btnUpdate" th:href="@{/admin/products/showUpdateProductForm(productId=${product.productId})}">Sửa</a> |
-                            <a class="btnDelete" th:href="@{/admin/products/delete(productId=${product.productId})}" 
-                                        onclick="if (!(confirm('Bạn có chắc muốn xoá sản phẩm này?'))) return false">Xóa</a>
+                            <a class="btnUpdate" th:href="@{/admin/categories/showUpdateCategoryForm(categoryId=${category.categoryId})}">Sửa</a> |
+                            <a class="btnDelete" th:href="@{/admin/categories/delete(categoryId=${category.categoryId})}" 
+                                        onclick="if (!(confirm('Bạn có chắc muốn xoá danh mục này?'))) return false">Xóa</a>
                         </td>
                     </tr>
                     <!-- Thêm các dòng sản phẩm khác -->

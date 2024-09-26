@@ -126,6 +126,8 @@ main .product-container a.btnAdd {
     background-color: #ccc;
     padding: 10px;
     margin: 20px;
+    display: block;
+    width: fit-content;
 }
 
 main .product-container a.btnAdd:hover {
@@ -138,7 +140,8 @@ main .product-container a.btnAdd i {
 }
 
 main table {
-    margin: 20px;
+    margin: auto;
+    width: 100%;
 }
 
 main table th {

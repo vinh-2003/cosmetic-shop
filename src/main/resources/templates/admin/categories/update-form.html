@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${category.name}"></title>
+    <link rel="stylesheet" th:href="@{/css/admin-manage.css}">
+    <script src="https://kit.fontawesome.com/d15b915a41.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/admin-manage.js}" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a th:href="@{/home}">
+                <img th:src="@{/images/logo/logo.webp}" alt="logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li class="dropdown">
+                    <a class="dropbtn" href="#">Quản lý</a>
+                    <ul class="dropdown-content">
+                        <li><a href="/admin/dashboard">Bảng điều khiển</a></li>
+                        <li><a th:href="@{/admin/products}">Quản lý sản phẩm</a></li>
+                        <li><a th:href="@{/admin/categories}">Quản lý danh mục</a></li>
+                        <li><a th:href="@{/admin/banners}">Quản lý banner</a></li>
+                        <li><a href="/admin/users">Quản lý người dùng</a></li>
+                        <li><a href="/admin/reports">Báo cáo</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Thống kê</a></li>
+            </ul>
+        </nav> <!-- Thanh điều hướng -->
+        <div class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </div>
+    </header>
+
+    <main>
+        <div class="addProduct-container">
+            <h1>Cập nhật danh mục</h1>
+
+            <form th:action="@{/admin/categories/save}" th:object="${category}" method="POST"
+                enctype="multipart/form-data">
+                <input type="hidden" th:field="*{categoryId}">
+
+                <label for="name">Tên danh mục:</label><br>
+                <input type="text" id="name" th:field="*{name}" required><br><br>
+
+                <label for="description">Mô tả:</label><br>
+                <textarea id="description" th:field="*{description}" rows="4" cols="50" required></textarea><br><br>
+
+                <label for="image_url">Hình ảnh:</label><br>
+                <input type="file" id="image_url" name="image" accept="image/*"><br><br>
+
+                <img id="image-preview" th:src="@{*{imageUrl}}" alt="Image Preview"><br><br>
+
+                <button type="submit">Cập nhật</button>
+            </form>
+            <a th:href="@{/admin/categories}">Trở lại danh sách danh mục</a>
+
+        </div>
+    </main>
+</body>
+
+</html>

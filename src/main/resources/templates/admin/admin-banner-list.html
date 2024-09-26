@@ -38,34 +38,29 @@
     </header>
     <main>
         <div class="product-container">
-            <h3>DANH SÁCH SẢN PHẨM</h3>
-            <a class="btnAdd" th:href="@{/admin/products/showCreateProductForm}"><i class="fa-solid fa-plus"></i>Thêm mới</a>
+            <h3>DANH SÁCH BANNER</h3>
+            <a class="btnAdd" th:href="@{/admin/banners/showCreateBannerForm}"><i class="fa-solid fa-plus"></i>Thêm mới</a>
             <table>
                 <thead>
                     <tr>
-                        <th>Tên sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Số lượng hàng tồn kho</th>
-                        <th>Danh mục</th>
-                        <th>Thương hiệu</th>
+                        <th>Liên kết</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Dữ liệu sản phẩm sẽ được lặp qua ở đây -->
-                    <tr th:each="product : ${products}">
-                        <td th:text="${product.name}"></td>
-                        <td th:text="${product.price}"></td>
-                        <td th:text="${product.stockQuantity}"></td>
-                        <td th:text="${product.category.name}"></td>
-                        <td th:text="${product.brand}"></td>
+                    <tr th:each="banner : ${banners}">
+                        <td th:text="${banner.link}"></td>
+                        <td th:text="${banner.startDate}"></td>
+                        <td th:text="${banner.endDate}"></td>
                         <td>
-                            <a class="btnUpdate" th:href="@{/admin/products/showUpdateProductForm(productId=${product.productId})}">Sửa</a> |
-                            <a class="btnDelete" th:href="@{/admin/products/delete(productId=${product.productId})}" 
-                                        onclick="if (!(confirm('Bạn có chắc muốn xoá sản phẩm này?'))) return false">Xóa</a>
+                            <a class="btnUpdate" th:href="@{/admin/banners/showUpdateBannerForm(bannerId=${banner.bannerId})}">Sửa</a> |
+                            <a class="btnDelete" th:href="@{/admin/banners/delete(bannerId=${banner.bannerId})}" 
+                                        onclick="if (!(confirm('Bạn có chắc muốn xoá banner này?'))) return false">Xóa</a>
                         </td>
                     </tr>
-                    <!-- Thêm các dòng sản phẩm khác -->
                 </tbody>
             </table>
 
