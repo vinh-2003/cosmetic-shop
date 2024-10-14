@@ -10,9 +10,8 @@ public class ShippingAddress {
     @Column(name = "address_id")
     private Long addressId;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-                            CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "customer_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "recipient_name", nullable = false)

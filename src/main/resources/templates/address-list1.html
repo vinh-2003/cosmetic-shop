@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmetic Shop</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <script src="https://kit.fontawesome.com/d15b915a41.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header1">
+            <div class="logo">
+                <a th:href="@{/home}">
+                    <img th:src="@{/images/logo/logo.webp}" alt="logo">
+                </a>
+            </div> <!--Logo-->
+            <div class="category_search">
+                <div class="dropdown">
+                    <button class="dropbtn"><i class="fa-solid fa-bars"></i>Danh mục</button>
+                    <ul class="dropdown-content">
+                        <li th:each="category : ${categories}">
+                            <a th:href="@{'/categories/' + ${category.categoryId}}" th:text="${category.name}"></a>
+                        </li>
+                    </ul>
+                </div>
+                <form id="searchForm" th:action="@{/products}" method="get">
+                    <input type="text" name="name" placeholder="Tìm kiếm sản phẩm ...">
+                    <i class="fa-solid fa-magnifying-glass" onclick="submitSearchForm()"></i>
+                </form>
+            </div> <!--Category + Search-->
+            <div class="cart_account_logout">
+                <a class="btn" th:href="@{/cart}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+                <div class="dropdown">
+                    <button class="btn">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                    <ul class="dropdown-content">
+                        <li><a th:href="@{/user/account}">Thông tin cá nhân</a></li>
+                        <li><a>Địa chỉ nhận hàng</a></li>
+                    </ul>
+                </div>
+                <div class="logout">
+                    <form action="#" th:action="@{/logout}" method="post">
+                        <button type="submit">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </form>
+                </div>
+            </div> <!--Gio hang + tai khoan-->
+        </div>
+        <nav>
+            <ul>
+                <li><a th:href="@{/home}">Trang chủ</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Pages</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav> <!--Dieu huong-->
+    </header>
+    <main>
+        <h3>Danh sách địa chỉ nhận hàng</h3>
+        <a th:href="@{/user/address/showFormCreateAddress}">Thêm địa chỉ mới</a>
+        <div th:if="${!addresses.isEmpty() and addresses != null}">
+            <div th:each="address : ${addresses}">
+                <div th:onclick="|window.location.href='/user/address/' + ${address.addressId}|">
+                    <p>Tên người nhận: <span th:text="${address.recipientName}"></span></p>
+                    <p>SĐT người nhận: <span th:text="${address.recipientPhone}"></span></p>
+                    <p>Địa chỉ: <span th:text="${address.addressLine}"></span></p>
+                </div>
+            </div>
+        </div>
+        <div th:if="${addresses.isEmpty() or addresses == null}">
+            <p>Bạn chưa có địa chỉ nhận hàng</p>
+        </div>
+    </main>
+    <footer>
+        <div class="info">
+            <b>Cosmetic Shop</b>
+            <p><i class="fa-solid fa-location-dot"></i>Địa chỉ: Km 10- Nguyễn Trãi- Thanh Xuân- Hà Nội</p>
+            <p><i class="fa-solid fa-phone"></i>Điện thoại: 0327871942</p>
+            <p><i class="fa-solid fa-envelope"></i>Email: vinhpv910@gmail.com</p>
+        </div>
+        <div class="support">
+            <b>Hỗ trợ khách hàng</b>
+            <ul>
+                <li>Các câu hỏi thường gặp</li>
+                <li>Hướng dẫn đặt hàng</li>
+                <li>Phương thức thanh toán</li>
+                <li>Phương thức vận chuyển</li>
+            </ul>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:src="@{/js/home.js}"></script>
+</body>
+
+</html>

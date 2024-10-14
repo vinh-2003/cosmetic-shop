@@ -2,6 +2,7 @@ package com.cosmeticshop.cosmetic_shop.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +24,7 @@ public class Cart {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL,
-                fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
 
     //Constructor
@@ -76,5 +76,19 @@ public class Cart {
         }
 
         cartItems.add(tempCartItem);
+
+        tempCartItem.setCart(this);
+    }
+
+    public BigDecimal calculateTotal() {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (CartItem cartItem : cartItems) {
+            // Giả sử price là giá sản phẩm và quantity là số lượng
+            BigDecimal itemTotal = cartItem.getPrice().multiply(new BigDecimal(cartItem.getQuantity()));
+            total = total.add(itemTotal);
+        }
+
+        return total;
     }
 }

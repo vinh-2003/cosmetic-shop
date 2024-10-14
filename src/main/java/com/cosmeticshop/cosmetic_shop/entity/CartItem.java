@@ -10,8 +10,7 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartItemId;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-                            CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 

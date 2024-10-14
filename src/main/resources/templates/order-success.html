@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>G8Shop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+    <style>
+        main {
+            margin: 0 auto;
+            width: 80%;
+        }
+    </style>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/fontawesome-free-6.6.0-web/fontawesome-free-6.6.0-web/css/all.min.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
+    <!-- Js Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+</head>
+
+<body style="background-color: #f5f5f5;">
+    <header class="header">
+        <div class="grid">
+            <nav class="header__navbar">
+                <ul class="header__navbar-list">
+                    <!-- Nếu người dùng chưa đăng nhập, hiển thị các nút Đăng ký và Đăng nhập -->
+                    <li th:if="${#authentication.name == 'anonymousUser'}"
+                        class="header__navbar-item header__navbar-item--strong">
+                        <a th:href="@{/register}">Đăng ký</a>
+                    </li>
+                    <li th:if="${#authentication.name == 'anonymousUser'}"
+                        class="header__navbar-item header__navbar-item--strong">
+                        <a th:href="@{/login}">Đăng nhập</a>
+                    </li>
+
+                    <!-- Nếu người dùng đã đăng nhập, hiển thị tên người dùng -->
+                    <li th:unless="${#authentication.name == 'anonymousUser'}"
+                        class="header__navbar-item header__navbar-item--strong">
+                        <div class="dropdown">
+                            <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">Xin
+                                chào, <strong th:text="${#authentication.name}"></strong></span>
+                            <ul class="dropdown-menu"
+                                style="background-color: #66ccff; font-size: 15px; font-family: Cairo, sans-serif;">
+                                <li><a class="dropdown-item" th:href="@{/user/account}">Thông tin tài
+                                        khoản</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/address}">Địa chỉ nhận
+                                        hàng</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/orders}">Đơn mua</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Nút đăng xuất cho người dùng đã đăng nhập -->
+                    <li th:unless="${#authentication.name == 'anonymousUser'}" class="header__navbar-item">
+                        <form action="#" th:action="@{/logout}" method="post" class="logout-form">
+                            <button id="logout" type="submit" class="logout-button">Đăng xuất</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="header-with-search">
+                <div class="header__logo">
+                    <a th:href="@{/home}">
+                        <img class="header__logo-img" th:src="@{/images/Logo1.png}" alt="Logo">
+                    </a>
+                </div>
+
+                <form id="searchForm" th:action="@{/products}" method="get" class="header__search">
+                    <input type="text" name="name" class="header__search-input"
+                        placeholder="Nhập để tìm kiếm sản phẩm ">
+                    <button onclick="submitSearchForm()" class="header__search-btn">
+                        <i class="header__search-btn-icon fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+
+                <div class="header__cart" th:onclick="|window.location.href='/cart'|">
+                    <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div style="background-color: white; display: flex; flex-direction: column; justify-content: flex-start; align-items: center;">
+            <i style="display: block; font-size: 48px; color: #66ccff; margin: 40px 0;" class="fa-regular fa-circle-check fa-2xl"></i>
+            <p style="font-weight: bold; color: #66ccff;">Đặt hàng thành công</p>
+            <p>Mã đơn hàng: <span th:text="${order.orderId}"></span></p>
+            <a th:href="@{/home}" style="background-color: #66ccff; color: white; border: 1px solid #66ccff; font-weight: bold; font-size: 16px; border-radius: 5px; padding: 15px; text-align: center; margin: 10px;">Quay về trang chủ</a>
+        </div>
+    </main>
+    <!-- Footer Section Begin -->
+    <footer class="footer spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__about__logo">
+                            <a th:href="@{/home}"><img th:src="@{/images/Logo1.png}" alt=""></a>
+                        </div>
+                        <ul>
+                            <li>Address: Km10 Nguyễn Trãi, Hà Đông</li>
+                            <li>Phone: +84 98 666 8888</li>
+                            <li>Email: G8shop.cosmetic@gmail.com</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+                    <div class="footer__widget">
+                        <h6>Links</h6>
+                        <ul>
+                            <li><a href="#">Giới thiệu về chúng tôi</a></li>
+                            <li><a href="#">Giới thiệu về cửa hàng</a></li>
+                            <li><a href="#">Mua sắm an toàn</a></li>
+                            <li><a href="#">Thông tin giao hàng</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="#">Chúng tôi là ai</a></li>
+                            <li><a href="#">Dịch vụ của chúng tôi</a></li>
+                            <li><a href="#">Dự án</a></li>
+                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="#">Đổi mới</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer__widget">
+                        <h6>Nhận thông báo từ shop</h6>
+                        <p>Nhận email cập nhật về cửa hàng mới nhất và các ưu đãi đặc biệt của chúng tôi.</p>
+                        <form action="#">
+                            <input type="text" placeholder="Nhập email của bạn">
+                            <button type="submit" class="site-btn">Đăng kí</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/jquery.slicknav.js}"></script>
+    <script th:src="@{/js/mixitup.min.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:src="@{/js/home.js}"></script>
+</body>
+
+</html>

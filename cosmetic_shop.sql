@@ -44,7 +44,7 @@ CREATE TABLE users (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE authorities (
-	athority_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+	authority_id BIGINT AUTO_INCREMENT PRIMARY KEY,
 	username VARCHAR(255) NOT NULL,
     authority VARCHAR(255) NOT NULL,
     UNIQUE KEY (username,authority), 
@@ -83,9 +83,11 @@ CREATE TABLE orders (
     user_id BIGINT,
     total DECIMAL(10, 2) NOT NULL,
     current_status_id BIGINT,
+    address_id BIGINT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (current_status_id) REFERENCES order_status(status_id)
+    FOREIGN KEY (current_status_id) REFERENCES order_status(status_id),
+    FOREIGN KEY (address_id) REFERENCES shipping_address(address_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE order_status (

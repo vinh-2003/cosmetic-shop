@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")
 public class HomeController {
 
     @Autowired
@@ -27,7 +26,12 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping
+    @GetMapping("/")
+    public String redirectToHome() {
+        return "redirect:/home";  // Chuyển hướng đến trang home
+    }
+
+    @GetMapping("/home")
     public String showHomePage(Model model) {
 
         List<Banner> banners = bannerService.findAll();
@@ -38,6 +42,6 @@ public class HomeController {
         model.addAttribute("categories", categories);
         model.addAttribute("products", products);
 
-        return "index";
+        return "home";
     }
 }

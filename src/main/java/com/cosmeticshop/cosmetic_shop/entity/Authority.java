@@ -11,9 +11,8 @@ public class Authority {
     @Column(name = "authority_id")
     private Long authorityId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "username", nullable = false)
-    private User user;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "authority", nullable = false)
     private String authority;
@@ -22,8 +21,8 @@ public class Authority {
     public Authority() {
     }
 
-    public Authority(User user, String authority) {
-        this.user = user;
+    public Authority(String username, String authority) {
+        this.username = username;
         this.authority = authority;
     }
 
@@ -37,12 +36,12 @@ public class Authority {
         this.authorityId = authorityId;
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getAuthority() {

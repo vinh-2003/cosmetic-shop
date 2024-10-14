@@ -11,6 +11,9 @@ body {
 header {
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 0;
+    z-index: 3;
 }
 
 .header1 {
@@ -51,6 +54,48 @@ header {
     margin-right: 5px;
 }
 
+.header1 ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.header1 button:hover,
+.dropdown:hover .dropbtn {
+    background-color: white;
+}
+
+.header1 .dropdown {
+    display: inline-block;
+}
+
+.header1 .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 4;
+}
+
+.header1 .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.header1 .dropdown-content a:hover {
+    background-color: gray;
+}
+
+.header1 .dropdown:hover .dropdown-content {
+    display: block;
+}
+
 .header1 .category_search form input {
     width: 400px;
     border: 1px solid grey;
@@ -70,6 +115,12 @@ header {
     color: black;
 }
 
+.header1 .cart_account_logout {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .header1 .btn {
     background-color: black;
     color: white;
@@ -77,11 +128,31 @@ header {
     padding: 10px 15px;
     text-decoration: none;
     border-radius: 5px;
-    box-sizing: border-box;
     margin: 5px;
 }
 
 .header1 .btn:hover {
+    background-color: white;
+    color: black;
+}
+
+.header1 .logout form {
+    display: inline;
+}
+
+.header1 .logout button {
+    background-color: black;
+    border: none;
+}
+
+.header1 .logout i {
+    border: 1px solid white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+}
+
+.header1 .logout i:hover {
     background-color: white;
     color: black;
 }
@@ -257,4 +328,3 @@ footer .support ul {
 footer .support ul li {
     padding: 5px;
 }
-

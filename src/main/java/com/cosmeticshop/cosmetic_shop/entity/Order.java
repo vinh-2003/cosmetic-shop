@@ -2,6 +2,7 @@ package com.cosmeticshop.cosmetic_shop.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,23 +15,22 @@ public class Order {
     @Column(name = "order_id")
     private Long orderId;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-                            CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "customer_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "total", nullable = false)
     private BigDecimal total;
 
     @OneToOne
-    @JoinColumn(name = "current_status_id")
-    private OrderStatus currentStatus;
+    @JoinColumn(name = "address_id", nullable = false)
+    private ShippingAddress shippingAddress;
 
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderStatus> orderStatuses;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,
@@ -41,10 +41,10 @@ public class Order {
     public Order() {
     }
 
-    public Order(User user, BigDecimal total, OrderStatus currentStatus) {
+    public Order(User user, BigDecimal total, OrderStatus currentStatus, ShippingAddress shippingAddress) {
         this.user = user;
         this.total = total;
-        this.currentStatus = currentStatus;
+        this.shippingAddress = shippingAddress;
     }
 
     // Getters and Setters
@@ -72,12 +72,12 @@ public class Order {
         this.total = total;
     }
 
-    public OrderStatus getCurrentStatus() {
-        return currentStatus;
+    public ShippingAddress getShippingAddress() {
+        return shippingAddress;
     }
 
-    public void setCurrentStatus(OrderStatus currentStatus) {
-        this.currentStatus = currentStatus;
+    public void setShippingAddress(ShippingAddress shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 
     public Date getCreatedAt() {
@@ -103,4 +103,15 @@ public class Order {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
+
+    public void add(OrderStatus orderStatus) {
+        if (orderStatuses == null) {
+            orderStatuses = new ArrayList<>();
+        }
+        orderStatuses.add(orderStatus);
+
+        orderStatus.setOrder(this);
+    }
+
+
 }

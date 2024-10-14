@@ -43,6 +43,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Liên kết</th>
                         <th>Ngày bắt đầu</th>
                         <th>Ngày kết thúc</th>
@@ -52,6 +53,9 @@
                 <tbody>
                     <!-- Dữ liệu sản phẩm sẽ được lặp qua ở đây -->
                     <tr th:each="banner : ${banners}">
+                        <td class="image">
+                            <img th:src="${banner.imageUrl}" alt="banner">
+                        </td>
                         <td th:text="${banner.link}"></td>
                         <td th:text="${banner.startDate}"></td>
                         <td th:text="${banner.endDate}"></td>

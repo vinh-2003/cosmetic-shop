@@ -13,13 +13,13 @@ public class OrderStatus {
     private Long statusId;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @Column(name = "status", nullable = false)
     private String status;
 
-    @Column(name = "changed_at")
+    @Column(name = "changed_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date changedAt;
 

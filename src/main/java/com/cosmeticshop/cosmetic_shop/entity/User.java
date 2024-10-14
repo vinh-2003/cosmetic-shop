@@ -29,19 +29,13 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private Integer enabled = 1;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
-                fetch = FetchType.EAGER)
-    private List<Authority> authorities;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ShippingAddress> shippingAddresses;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
-                fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -105,14 +99,6 @@ public class User {
 
     public void setEnabled(Integer enabled) {
         this.enabled = enabled;
-    }
-
-    public List<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(List<Authority> authorities) {
-        this.authorities = authorities;
     }
 
     public List<ShippingAddress> getShippingAddresses() {

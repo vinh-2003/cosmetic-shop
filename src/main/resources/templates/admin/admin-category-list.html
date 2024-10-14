@@ -43,6 +43,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Tên danh mục</th>
                         <th>Mô tả</th>
                         <th>Thao tác</th>
@@ -51,8 +52,11 @@
                 <tbody>
                     <!-- Dữ liệu sản phẩm sẽ được lặp qua ở đây -->
                     <tr th:each="category : ${categories}">
+                        <td class="image">
+                            <img th:src="${category.imageUrl}" alt="category">
+                        </td>
                         <td th:text="${category.name}"></td>
-                        <td th:text="${category.description}"></td>
+                        <td class="long-text" th:text="${category.description}"></td>
                         <td>
                             <a class="btnUpdate" th:href="@{/admin/categories/showUpdateCategoryForm(categoryId=${category.categoryId})}">Sửa</a> |
                             <a class="btnDelete" th:href="@{/admin/categories/delete(categoryId=${category.categoryId})}" 

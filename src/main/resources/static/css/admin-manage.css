@@ -94,10 +94,20 @@ header .logout {
     margin-right: 20px;
 }
 
+header .logout form {
+    display: inline;
+}
+
+header .logout button {
+    background-color: black;
+    border: none;
+}
+
 header .logout i {
     border: 1px solid white;
     padding: 10px 15px;
     border-radius: 5px;
+    color: white;
 }
 
 header .logout i:hover {
@@ -181,4 +191,22 @@ main .addProduct-container {
     max-width: 100%;
     max-height: 400px;
     margin-top: 20px;
+}
+
+main table td.long-text {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+main table td.image {
+    width: 100px;
+    height: 70px;
+}
+
+main table td img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }

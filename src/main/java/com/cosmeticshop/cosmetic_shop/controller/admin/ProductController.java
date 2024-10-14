@@ -3,6 +3,7 @@ package com.cosmeticshop.cosmetic_shop.controller.admin;
 import com.cosmeticshop.cosmetic_shop.entity.Category;
 import com.cosmeticshop.cosmetic_shop.entity.Product;
 import com.cosmeticshop.cosmetic_shop.entity.Tag;
+import com.cosmeticshop.cosmetic_shop.service.CartItemService;
 import com.cosmeticshop.cosmetic_shop.service.CategoryService;
 import com.cosmeticshop.cosmetic_shop.service.ProductService;
 import com.cosmeticshop.cosmetic_shop.service.TagService;
@@ -31,6 +32,9 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CartItemService cartItemService;
 
     @Autowired
     private TagService tagService;
@@ -78,6 +82,10 @@ public class ProductController {
         }
         // Lưu product vào cơ sở dữ liệu
         productService.save(product);
+
+        // Sau khi lưu sản phẩm, cập nhật các CartItem liên quan
+        cartItemService.updateCartItemsPrice(product);
+
         redirectAttributes.addFlashAttribute("message", "thành công!");
         return "redirect:/admin/products";
     }
