@@ -38,7 +38,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/fontawesome-free-6.6.0-web/**", "/sass/**", "/fonts/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/fontawesome-free-6.6.0-web/**", "/fonts/**").permitAll()
                         .requestMatchers("/", "/home", "/products/**", "/categories/**", "/login", "/register").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/cart/**", "/cart", "/order/**", "/order", "/user/**", "/api/cart/**", "/api/orders/**", "/api/cartItems", "/api/products").hasRole("CUSTOMER")
