@@ -143,7 +143,7 @@
                         <img style="width: 100px; border: 1px solid grey;" th:src="${orderItem.product.imageUrl}"
                             th:alt="${orderItem.product.name}">
                     </div>
-                    <div style="width: 75%;">
+                    <div class="body__orderItems__name__and__quantity" style="width: 75%;">
                         <p style="color: #66ccff; font-weight: 600;" th:text="${orderItem.product.name}"></p>
                         <p th:text="'Số lượng: ' + ${orderItem.quantity}"></p>
                     </div>
@@ -154,9 +154,8 @@
                 </div>
                 <div class="containerr" style="display: flex; justify-content: space-between;">
                     <p th:text="${orderAndStatus.currentStatus}" style="text-transform: uppercase;"></p>
-                    <p style="text-align: right; width: 70%; font-size: 20px;">Thành tiền: </p>
-                    <p th:text="${#numbers.formatDecimal(orderAndStatus.order.total, 0, 0)} + 'đ'"
-                        style="color: orange; font-size: 18px;"></p>
+                    <p style="text-align: right; width: 70%; font-size: 20px;">Thành tiền: <span th:text="${#numbers.formatDecimal(orderAndStatus.order.total, 0, 0)} + 'đ'"
+                        style="color: orange; font-size: 18px;"></span></p>
                 </div>
             </div>
         </div>

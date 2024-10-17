@@ -92,7 +92,7 @@
         <div class="app__container">
             <div class="grid">
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="category__container col-sm-2">
                         <nav class="category">
                             <h3 class="category__heading">
                                 <i class="category__heading-icon fa-solid fa-list"></i>
@@ -107,14 +107,14 @@
                         </nav>
                     </div>
     
-                    <div class="col-sm-10" th:if="${products != null and !products.isEmpty()}">
+                    <div class="product__container col-sm-10" th:if="${products != null and !products.isEmpty()}">
                         <div class="home-product">
                             <div class="grid__row">
                                 <div th:each="product : ${products}" class="grid__column-2-4">
                                     <div class="home-product-item" th:onclick="|window.location.href='/products/' + ${product.productId}|">
                                         <div class="home-product-item__img"
                                             th:style="'background-image: url(' + ${product.imageUrl} + ');'"></div>
-                                        <h4 th:text="${product.name}" class="home-product-item__name"></h4>
+                                        <h4 th:text="${product.name}" class="home-product-item__name index-product-name"></h4>
                                         <div class="home-product-item__price">
                                             <span th:text="${#numbers.formatDecimal(product.price, 0, 0)} + 'đ'" 
                                                     class="home-product-item__price-old"></span>

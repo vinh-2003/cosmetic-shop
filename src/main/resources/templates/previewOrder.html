@@ -108,7 +108,7 @@
             </div>
         </div>
     </header>
-    <main class="app">
+    <main class="app previewOrder">
         <p style="color: #66ccff; padding: 20px 0px 0px 15px;">THANH TOÁN</p>
         <div>
             <div class="containerr">
@@ -126,21 +126,21 @@
                 </div>
             </div>
             <div>
-                <div class="containerr row" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
-                    <p class="col-sm-7" style="font-weight: bold; text-align: center;">Sản phẩm</p>
-                    <p class="col-sm-2" style="text-align: center;">Đơn giá</p>
-                    <p class="col-sm-1" style="text-align: center;">Số lượng</p>
+                <div class="header__orderItems containerr row" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
+                    <p class="col-sm-7 col-8" style="font-weight: bold; text-align: center;">Sản phẩm</p>
+                    <p class="header__orderItems__price col-sm-2 col-2" style="text-align: center;">Đơn giá</p>
+                    <p class="header__orderItems__quantity col-sm-1 col-2" style="text-align: center;">Số lượng</p>
                     <p class="col-sm-2" style="text-align: center;">Thành tiền</p>
                 </div>
                 <div th:each="orderItem : ${order.orderItems}">
-                    <div class="containerr row" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
-                        <div class="col-sm-2" style="font-weight: bold;">
+                    <div class="body__orderItems containerr row" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
+                        <div class="body__orderItems__img col-sm-2 col-2" style="font-weight: bold;">
                             <img th:src="${orderItem.product.imageUrl}" th:alt="${orderItem.product.name}">
                         </div>
-                        <p th:text="${orderItem.product.name}" class="col-sm-5"></p>
-                        <p th:text="${#numbers.formatDecimal(orderItem.price, 0, 0) + 'đ'}" class="col-sm-2"
+                        <p th:text="${orderItem.product.name}" class="col-sm-5 col-6"></p>
+                        <p th:text="${#numbers.formatDecimal(orderItem.price, 0, 0) + 'đ'}" class="body__orderItems__price col-sm-2 col-2"
                             style="text-align: center;"></p>
-                        <p th:text="${orderItem.quantity}" class="col-sm-1" style="text-align: center;"></p>
+                        <p th:text="${orderItem.quantity}" class="body__orderItems__quantity col-sm-1 col-2" style="text-align: center;"></p>
                         <p th:text="${#numbers.formatDecimal(orderItem.quantity * orderItem.price, 0, 0) + 'đ'}"
                             class="col-sm-2" style="text-align: center;"></p>
                     </div>
@@ -162,15 +162,15 @@
                 </form>
             </div>
             <div class="row" style="margin: 0px; align-items: center;">
-                <div class="col-7" style="align-self: self-end; margin: 10px 0;">
+                <div class="col-sm-7 col-4" style="align-self: self-end; margin: 10px 0;">
                     <button
                         style="background-color: gray; color: white; border: 1px solid gray; font-weight: bold; font-size: 16px; border-radius: 5px; padding: 15px; text-align: center; margin: 10px 0;"
                         type="submit" th:onclick="|returnHomeAndCancelOrder(${order.orderId})|">Trở lại</button>
                 </div>
-                <div class="col-5 containerr" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
+                <div class="col-sm-5 col-8 containerr" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
                     <div class="row" style="margin: 0px; align-items: center;">
-                        <p class="col-sm-4" style="font-weight: bold;">Tổng tiền:</p>
-                        <p class="col-sm-8" style="font-weight: 100; color: red; font-weight: bold; text-align: right;"
+                        <p class="col-sm-5 col-5" style="font-weight: bold;">Tổng tiền:</p>
+                        <p class="col-sm-7 col-7" style="font-weight: 100; color: red; font-weight: bold; text-align: right;"
                             th:text="${#numbers.formatDecimal(order.total, 0, 0) + 'đ'}"></p>
                     </div>
                     <hr>

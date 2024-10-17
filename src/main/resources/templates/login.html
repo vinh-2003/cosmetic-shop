@@ -88,8 +88,8 @@
             </div>
         </div>
     </header>
-    <main class="modal">
-        <div class="modal__body">
+    <main class="modall">
+        <div class="col-lg-5 modal__body">
             <form class="auth-form" th:action="@{/authenticateTheUser}" method="post">
                 <div class="auth-form__container">
                     <div class="auth-form__header">
@@ -111,13 +111,13 @@
                         <div th:if="${param.logout}">
                             <p style="color: blue;">Bạn đã đăng xuất</p>
                         </div>
-
+                    </div>
+                    <div class="auth-form__controls">
+                        <button class="btn" th:onclick="|window.location.href='/home'|">Trở lại</button>
+                        <button class="btn btn--primary" type="submit">Đăng nhập</button>
                     </div>
                 </div>
-                <div class="auth-form__controls">
-                    <button class="btn" th:onclick="|window.location.href='/home'|">Trở lại</button>
-                    <button class="btn btn--primary" type="submit">Đăng nhập</button>
-                </div>
+                
             </form>
         </div>
     </main>

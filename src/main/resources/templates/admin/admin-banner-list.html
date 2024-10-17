@@ -107,31 +107,31 @@
         </nav>
         <div class="container-fluid">
             <div class="row" style="padding: 15px 10px 5px 10px; align-items: center;">
-                <p class="col-10">DANH SÁCH BANNER</p>
-                <a class="col-2 btnn add" th:href="@{/admin/banners/showCreateBannerForm}"><i style="margin-right: 5px;" class="fa-solid fa-plus"></i>Thêm
+                <p class="col-lg-10 col-7">DANH SÁCH BANNER</p>
+                <a class="col-lg-2 col-5 btnn add" th:href="@{/admin/banners/showCreateBannerForm}"><i style="margin-right: 5px;" class="fa-solid fa-plus"></i>Thêm
                     mới</a>
             </div>
         </div>
         <div class="container-fluid" style="border-radius: 10px;">
-            <div class="row" style="background-color: #66ccff; padding: 10px; align-items: center;">
+            <div class="banner__list__header row" style="background-color: #66ccff; padding: 10px; align-items: center;">
                 <p class="col-2" style="text-align: center;">Hình ảnh</p>
                 <p class="col-4" style="text-align: center;">Liên kết</p>
                 <p class="col-2" style="text-align: center;">Ngày bắt đầu</p>
                 <p class="col-2" style="text-align: center;">Ngày kết thúc</p>
                 <p class="col-2" style="text-align: center;">Thao tác</p>
             </div>
-            <div th:each="banner : ${banners}" class="row" style="border-bottom: 1px solid #66ccff; padding: 10px 0; align-items: center;">
-                <div class="col-2">
+            <div th:each="banner : ${banners}" class="banner__list__body row" style="border-bottom: 1px solid #66ccff; padding: 10px 0; align-items: center;">
+                <div class="col-lg-2">
                     <img th:src="${banner.imageUrl}" alt="banner">
                 </div>
-                <p th:text="${banner.link}" class="col-4" style="text-align: center;"></p>
-                <p th:text="${banner.startDate}" class="col-2" style="text-align: center;"></p>
-                <p th:text="${banner.endDate}" class="col-2" style="text-align: center;"></p>
-                <div class="col-2">
-                    <div class="row" style="padding: 10px 0; align-items: center;">
-                        <a class="col-5 btnn update"
-                        th:href="@{/admin/banners/showUpdateBannerForm(bannerId=${banner.bannerId})}">Sửa</a> |
-                        <a class="col-5 btnn delete" th:href="@{/admin/banners/delete(bannerId=${banner.bannerId})}" 
+                <p th:text="${banner.link}" class="col-lg-4" style="text-align: center;"></p>
+                <p th:text="${banner.startDate}" class="col-lg-2" style="text-align: center;"></p>
+                <p th:text="${banner.endDate}" class="col-lg-2" style="text-align: center;"></p>
+                <div class="col-lg-2">
+                    <div class="row" style="padding: 10px; align-items: center;">
+                        <a class="col-6 btnn update"
+                        th:href="@{/admin/banners/showUpdateBannerForm(bannerId=${banner.bannerId})}">Sửa</a>
+                        <a class="col-6 btnn delete" th:href="@{/admin/banners/delete(bannerId=${banner.bannerId})}" 
                         onclick="if (!(confirm('Bạn có chắc muốn xoá banner này?'))) return false">Xóa</a>
                     </div>
                 </div>

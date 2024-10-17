@@ -93,7 +93,7 @@
         <div class="app__container">
             <div class="grid">
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="category__container col-sm-2">
                         <nav class="category">
                             <h3 class="category__heading">
                                 <i class="category__heading-icon fa-solid fa-list"></i>
@@ -108,7 +108,7 @@
                         </nav>
                     </div>
 
-                    <div class="col-sm-10" th:if="${category.products != null and !category.products.isEmpty()}">
+                    <div class="product__container col-sm-10" th:if="${category.products != null and !category.products.isEmpty()}">
                         <div class="home-product">
                             <div class="grid__row">
                                 <div th:each="product : ${category.products}" class="grid__column-2-4">

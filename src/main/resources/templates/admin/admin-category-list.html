@@ -107,30 +107,30 @@
         </nav>
         <div class="container-fluid">
             <div class="row" style="padding: 15px 10px 5px 10px; align-items: center;">
-                <p class="col-10">DANH SÁCH DANH MỤC</p>
-                <a class="col-2 btnn add" th:href="@{/admin/categories/showCreateCategoryForm}"><i style="margin-right: 5px;" class="fa-solid fa-plus"></i>Thêm
+                <p class="col-lg-10 col-7">DANH SÁCH DANH MỤC</p>
+                <a class="col-lg-2 col-5 btnn add" th:href="@{/admin/categories/showCreateCategoryForm}"><i style="margin-right: 5px;" class="fa-solid fa-plus"></i>Thêm
                     mới</a>
             </div>
         </div>
         <div class="container-fluid" style="border-radius: 10px;">
-            <div class="row" style="background-color: #66ccff; padding: 10px; align-items: center;">
+            <div class="category__list__header row" style="background-color: #66ccff; padding: 10px; align-items: center;">
                 <p class="col-6" style="text-align: center;">Danh mục</p>
                 <p class="col-4" style="text-align: center;">Mô tả</p>
                 <p class="col-2" style="text-align: center;">Thao tác</p>
             </div>
-            <div th:each="category : ${categories}" class="row" style="border-bottom: 1px solid #66ccff; padding: 10px 0; align-items: center;">
-                <div class="col-6">
+            <div th:each="category : ${categories}" class=" category__list__body row" style="border-bottom: 1px solid #66ccff; padding: 10px 0; align-items: center;">
+                <div class="col-lg-6">
                     <div class="row" style="padding: 10px 0; align-items: center;">
-                        <img class="col-3" th:src="${category.imageUrl}" th:alt="${category.name}">
-                        <p class="col-9" th:text="${category.name}"></p>
+                        <img class="col-lg-3 col-4" th:src="${category.imageUrl}" th:alt="${category.name}">
+                        <p class="col-lg-9 col-8" th:text="${category.name}"></p>
                     </div>
                 </div>
-                <p th:text="${category.description}" class="col-4" style="text-align: center;"></p>
-                <div class="col-2">
-                    <div class="row" style="padding: 10px 0; align-items: center;">
-                        <a class="col-5 btnn update"
-                        th:href="@{/admin/categories/showUpdateCategoryForm(categoryId=${category.categoryId})}">Sửa</a> |
-                        <a class="col-5 btnn delete" th:href="@{/admin/categories/delete(categoryId=${category.categoryId})}" 
+                <p th:text="${category.description}" class="col-lg-4 col-4" style="text-align: center;"></p>
+                <div class="col-lg-2 col-8">
+                    <div class="row" style="padding: 10px; align-items: center;">
+                        <a class="col-6 btnn update"
+                        th:href="@{/admin/categories/showUpdateCategoryForm(categoryId=${category.categoryId})}">Sửa</a>
+                        <a class="col-6 btnn delete" th:href="@{/admin/categories/delete(categoryId=${category.categoryId})}" 
                         onclick="if (!(confirm('Bạn có chắc muốn xoá danh mục này?'))) return false">Xóa</a>
                     </div>
                 </div>

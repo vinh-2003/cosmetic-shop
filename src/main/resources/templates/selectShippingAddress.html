@@ -108,13 +108,13 @@
             </div>
         </div>
     </header>
-    <main class="app">
+    <main class="app previewOrder">
         <p style="color: #66ccff; padding: 20px 0px 0px 15px;">CHỌN ĐỊA CHỈ NHẬN HÀNG</p>
         <div class="containerr">
             <form th:action="@{/order/confirmAddress}" method="post">
                 <div class="row" style="margin: 0px; border-bottom: 1px solid #66ccff;" th:each="address : ${addresses}">
                     <input style="margin-left: 15px;" type="radio" name="addressId" th:value="${address.addressId}" />
-                    <label class="col-sm-11" style="padding: 15px; margin: 0;">
+                    <label class="col-sm-11 col-11" style="padding: 15px; margin: 0;">
                         <p style="font-weight: bold;" th:text="${address.recipientName}"></p>
                         <p th:text="${address.recipientPhone}"></p>
                         <p th:text="${address.addressLine}"></p>

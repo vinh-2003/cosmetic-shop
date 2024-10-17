@@ -56,3 +56,34 @@ main .btnn.delete {
     background-color: red;
     border: 1px solid red;
 }
+
+@media only screen and (max-width: 600px) {
+    /* List */
+    main {
+        width: 100%;
+    }
+
+    .product__list__header {
+        display: none;
+    }
+
+    .product__list__body {
+        border-top: 1px solid #66ccff;
+    }
+
+    .category__list__header {
+        display: none;
+    }
+
+    .category__list__body {
+        border-top: 1px solid #66ccff;
+    }
+
+    .banner__list__header {
+        display: none;
+    }
+
+    .banner__list__body {
+        border-top: 1px solid #66ccff;
+    }
+}

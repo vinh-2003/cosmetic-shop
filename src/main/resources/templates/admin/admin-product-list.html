@@ -107,13 +107,13 @@
         </nav>
         <div class="container-fluid">
             <div class="row" style="padding: 15px 10px 5px 10px; align-items: center;">
-                <p class="col-10">DANH SÁCH SẢN PHẨM</p>
-                <a class="col-2 btnn add" th:href="@{/admin/products/showCreateProductForm}"><i style="margin-right: 5px;" class="fa-solid fa-plus"></i>Thêm
+                <p class="col-lg-10 col-7">DANH SÁCH SẢN PHẨM</p>
+                <a class="col-lg-2 col-5 btnn add" th:href="@{/admin/products/showCreateProductForm}"><i style="margin-right: 5px;" class="fa-solid fa-plus"></i>Thêm
                     mới</a>
             </div>
         </div>
         <div class="container-fluid" style="border-radius: 10px;">
-            <div class="row" style="background-color: #66ccff; padding: 10px; align-items: center;">
+            <div class="product__list__header row" style="background-color: #66ccff; padding: 10px; align-items: center;">
                 <p class="col-6" style="text-align: center;">Sản phẩm</p>
                 <p class="col-1" style="text-align: center;">Giá</p>
                 <p class="col-1" style="text-align: center;">SL tồn kho</p>
@@ -121,22 +121,22 @@
                 <p class="col-1" style="text-align: center;">Thương hiệu</p>
                 <p class="col-2" style="text-align: center;">Thao tác</p>
             </div>
-            <div th:each="product : ${products}" class="row" style="border-bottom: 1px solid #66ccff; padding: 10px 0; align-items: center;">
-                <div class="col-6">
+            <div th:each="product : ${products}" class="product__list__body row" style="border-bottom: 1px solid #66ccff; padding: 10px 0; align-items: center;">
+                <div class="col-lg-6">
                     <div class="row" style="padding: 10px 0; align-items: center;">
-                        <img class="col-3" th:src="${product.imageUrl}" th:alt="${product.name}">
-                        <p class="col-9" th:text="${product.name}"></p>
+                        <img class="col-lg-3 col-4" th:src="${product.imageUrl}" th:alt="${product.name}">
+                        <p class="col-lg-9 col-8" th:text="${product.name}"></p>
                     </div>
                 </div>
-                <p th:text="${#numbers.formatDecimal(product.price, 0, 0) + 'đ'}" class="col-1" style="text-align: center;"></p>
-                <p th:text="${product.stockQuantity}" class="col-1" style="text-align: center;"></p>
-                <p th:text="${product.category.name}" class="col-1" style="text-align: center;"></p>
-                <p th:text="${product.brand}" class="col-1" style="text-align: center;"></p>
-                <div class="col-2">
-                    <div class="row" style="padding: 10px 0; align-items: center;">
-                        <a class="col-5 btnn update"
-                            th:href="@{/admin/products/showUpdateProductForm(productId=${product.productId})}">Sửa</a> |
-                        <a class="col-5 btnn delete" th:href="@{/admin/products/delete(productId=${product.productId})}"
+                <p th:text="${#numbers.formatDecimal(product.price, 0, 0) + 'đ'}" class="col-lg-1 col-4" style="text-align: center;"></p>
+                <p th:text="${product.stockQuantity}" class="col-lg-1 col-4" style="text-align: center;"></p>
+                <p th:text="${product.category.name}" class="col-lg-1 col-4" style="text-align: center;"></p>
+                <p th:text="${product.brand}" class="col-lg-1 col-4" style="text-align: center;"></p>
+                <div class="col-lg-2 col-8">
+                    <div class="row" style="padding: 10px; align-items: center;">
+                        <a class="col-lg-6 col-6 btnn update"
+                            th:href="@{/admin/products/showUpdateProductForm(productId=${product.productId})}">Sửa</a>
+                        <a class="col-lg-6 col-6 btnn delete" th:href="@{/admin/products/delete(productId=${product.productId})}"
                             onclick="if (!(confirm('Bạn có chắc muốn xoá sản phẩm này?'))) return false">Xóa</a>
                     </div>
                 </div>

@@ -88,9 +88,9 @@
             </div>
         </div>
     </header>
-    <main class="modal">
+    <main class="modall">
 
-        <div class="modal__body">
+        <div class="col-lg-5 modal__body">
 
             <form class="auth-form" action="#" th:action="@{/register}" th:object="${user}" method="post">
                 <div class="auth-form__container">
@@ -116,10 +116,10 @@
                                 th:field="*{phone}">
                         </div>
                     </div>
-                </div>
-                <div class="auth-form__controls">
-                    <button class="btn" th:onclick="|window.location.href='/home'|">Trở lại</button>
-                    <button type="submit" class="btn btn--primary">Đăng ký</button>
+                    <div class="auth-form__controls">
+                        <button class="btn" th:onclick="|window.location.href='/home'|">Trở lại</button>
+                        <button type="submit" class="btn btn--primary">Đăng ký</button>
+                    </div>
                 </div>
             </form>
         </div>

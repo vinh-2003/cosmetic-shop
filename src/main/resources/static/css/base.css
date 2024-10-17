@@ -71,3 +71,9 @@ html {
     color: var(--white-color);
     background-color: var(--primary-color);
 }
+
+@media only screen and (max-width: 600px) {
+    .grid__column-2-4 {
+        width: 50%;
+    }
+}
