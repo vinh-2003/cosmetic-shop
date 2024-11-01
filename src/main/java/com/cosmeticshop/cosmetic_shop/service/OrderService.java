@@ -1,6 +1,7 @@
 package com.cosmeticshop.cosmetic_shop.service;
 
 import com.cosmeticshop.cosmetic_shop.dto.OrderStatusDTO;
+import com.cosmeticshop.cosmetic_shop.dto.OrderVoucherStatusDTO;
 import com.cosmeticshop.cosmetic_shop.entity.Cart;
 import com.cosmeticshop.cosmetic_shop.entity.Order;
 import com.cosmeticshop.cosmetic_shop.entity.ShippingAddress;
@@ -18,4 +19,5 @@ public interface OrderService {
     List<OrderStatusDTO> findOrdersWithLatestStatus(User user);
     List<OrderStatusDTO> findOrdersWithStatus(User user, String status);
     void deleteById(Long id);
+    OrderVoucherStatusDTO setVoucherForOrder(OrderVoucherStatusDTO orderVoucherStatusDTO);
 }

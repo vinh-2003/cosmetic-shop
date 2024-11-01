@@ -3,10 +3,7 @@ package com.cosmeticshop.cosmetic_shop.controller.admin;
 import com.cosmeticshop.cosmetic_shop.entity.Category;
 import com.cosmeticshop.cosmetic_shop.entity.Product;
 import com.cosmeticshop.cosmetic_shop.entity.Tag;
-import com.cosmeticshop.cosmetic_shop.service.CartItemService;
-import com.cosmeticshop.cosmetic_shop.service.CategoryService;
-import com.cosmeticshop.cosmetic_shop.service.ProductService;
-import com.cosmeticshop.cosmetic_shop.service.TagService;
+import com.cosmeticshop.cosmetic_shop.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +22,6 @@ import java.util.List;
 @RequestMapping("/admin/products")
 public class ProductController {
 
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images/products";
-
     @Autowired
     private ProductService productService;
 
@@ -38,6 +33,9 @@ public class ProductController {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping
     public String getProductList(Model model) {
@@ -58,19 +56,17 @@ public class ProductController {
 
     @PostMapping("/save")
     @Transactional
-    public String saveProduct(Model model, @ModelAttribute("product") Product product,
+    public String saveProduct(@ModelAttribute("product") Product product,
                                @RequestParam("image") MultipartFile file,
                                RedirectAttributes redirectAttributes) {
 
         if (!file.isEmpty()) {
             try {
                 StringBuilder fileNames = new StringBuilder();
-                Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+                String imageUrl = cloudinaryService.uploadFile(file);
                 fileNames.append(file.getOriginalFilename());
-                Files.write(fileNameAndPath, file.getBytes());
-                model.addAttribute("msg", "Uploaded images: " + fileNames.toString());
                 // Lưu đường dẫn của file vào product
-                product.setImageUrl("/images/products/" + fileNames);
+                product.setImageUrl(imageUrl);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -154,9 +154,22 @@
                 </div>
                 <div class="containerr" style="display: flex; justify-content: space-between;">
                     <p th:text="${orderAndStatus.currentStatus}" style="text-transform: uppercase;"></p>
-                    <p style="text-align: right; width: 70%; font-size: 20px;">Thành tiền: <span th:text="${#numbers.formatDecimal(orderAndStatus.order.total, 0, 0)} + 'đ'"
-                        style="color: orange; font-size: 18px;"></span></p>
+                    <div>
+                        <p style="text-align: right; font-size: 20px;">
+                            Giảm giá:
+                            <span
+                                th:text="${orderAndStatus.order.voucher != null ? #numbers.formatDecimal(orderAndStatus.order.voucher.discount, 0, 0) : 0} + 'đ'"
+                                style="color: orange; font-size: 18px;"></span>
+                        </p>
+                        <p style="text-align: right; font-size: 20px;">
+                            Thành tiền:
+                            <span
+                                th:text="${#numbers.formatDecimal(orderAndStatus.order.total - (orderAndStatus.order.voucher != null ? orderAndStatus.order.voucher.discount : 0), 0, 0)} + 'đ'"
+                                style="color: orange; font-size: 18px;"></span>
+                        </p>
+                    </div>
                 </div>
+
             </div>
         </div>
         <div class="containerr" style="margin-top: 15px;"
@@ -238,15 +251,15 @@
             // Lấy đường dẫn hiện tại (path) của URL và giải mã
             var currentPath = decodeURIComponent(window.location.pathname + window.location.search);
             console.log(currentPath);
-    
+
             // Lặp qua tất cả các thẻ a trong menu
             $('a.nav-link').each(function () {
                 var link = $(this);
                 var linkPath = link.attr('href');
-    
+
                 // Giải mã đường dẫn trong href để so sánh với currentPath
                 var decodedLinkPath = decodeURIComponent(linkPath);
-    
+
                 // Kiểm tra nếu href của link trùng với đường dẫn hiện tại
                 if (decodedLinkPath === currentPath) {
                     // Thêm class 'active' vào thẻ a
@@ -254,7 +267,7 @@
                 }
             });
         });
-    </script>    
+    </script>
 </body>
 
 </html>

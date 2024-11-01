@@ -39,7 +39,7 @@ public class Product {
 
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private Date createdAt = new Date();
 
     @Column(name = "discount_percentage", nullable = false)
     private BigDecimal discountPercentage = BigDecimal.ZERO;

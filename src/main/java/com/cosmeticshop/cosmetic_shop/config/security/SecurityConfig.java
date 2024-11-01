@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/fontawesome-free-6.6.0-web/**", "/fonts/**").permitAll()
                         .requestMatchers("/", "/home", "/products/**", "/categories/**", "/login", "/register").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/cart/**", "/cart", "/order/**", "/order", "/user/**", "/api/cart/**", "/api/orders/**", "/api/cartItems", "/api/products").hasRole("CUSTOMER")
+                        .requestMatchers("/cart/**", "/cart", "/order/**", "/order", "/user/**", "/api/cart/**", "/api/orders/**", "/api/cartItems", "/api/products", "/vouchers").hasRole("CUSTOMER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form ->

@@ -6,9 +6,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 
+    <style>
+        .pagination ul li {
+            margin: 0 5px;
+            color: #66ccff;
+        }
+
+        .pagination ul li a {
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #66ccff;
+            border-radius: 5px;
+            border: 1px solid #66ccff;
+        }
+
+        .pagination ul li a:hover {
+            background-color: #66ccff;
+            color: white;
+        }
+
+        .pagination ul li a.active {
+            font-weight: bold;
+            background-color: #66ccff;
+            color: white;
+        }
+    </style>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -159,27 +184,78 @@
                 </div>
             </div>
             <div class="row featured__filter">
-                <div th:each="product : ${products}" class="col-lg-3 col-md-4 col-sm-6 col-6 index-home-product-item">
+                <div th:each="product : ${productPage.getContent()}"
+                    class="col-lg-3 col-md-4 col-sm-6 col-6 index-home-product-item">
                     <div class="featured__item">
                         <div class="featured__item__pic set-bg" th:attr="data-setbg=${product.imageUrl}">
                             <ul class="featured__item__pic__hover">
                                 <li>
-                                    <a href="javascript:void(0)" th:onclick="|addOneProductToCart(${product.productId})|">
+                                    <a href="javascript:void(0)"
+                                        th:onclick="|addOneProductToCart(${product.productId})|">
                                         <i class="fa fa-shopping-cart"></i>
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="featured__item__text" th:onclick="|window.location.href='/products/' + ${product.productId}|">
-                            <h6><a class="index-product-name" th:href="@{'/products/' + ${product.productId}}" th:text="${product.name}"></a></h6>
+                        <div class="featured__item__text"
+                            th:onclick="|window.location.href='/products/' + ${product.productId}|">
+                            <h6><a class="index-product-name" th:href="@{'/products/' + ${product.productId}}"
+                                    th:text="${product.name}"></a></h6>
                             <div style="display: flex; justify-content: space-around; align-items: center;">
-                                <h5 style="text-decoration: line-through;" th:text="${#numbers.formatDecimal(product.price, 0, 0)} + 'đ'"></h5>
-                                <h5 th:text="${#numbers.formatDecimal(product.price * (100 - product.discountPercentage) / 100, 0, 0)} + 'đ'"></h5>
+                                <h5 style="text-decoration: line-through;"
+                                    th:text="${#numbers.formatDecimal(product.price, 0, 0)} + 'đ'"></h5>
+                                <h5
+                                    th:text="${#numbers.formatDecimal(product.price * (100 - product.discountPercentage) / 100, 0, 0)} + 'đ'">
+                                </h5>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Phân trang -->
+            <div class="pagination" style="font-size: 16px; margin: 25px 0;">
+                <ul style="list-style: none;
+                    display: flex; margin: 0 auto;">
+                    <!-- Nút Previous -->
+                    <li th:if="${currentPage > 0}">
+                        <a th:href="@{/home(page=${currentPage - 1}, size=${productPage.getSize()})}"><i class="fa-solid fa-chevron-left"></i></a>
+                    </li>
+            
+                    <!-- Hiển thị trang đầu tiên -->
+                    <li th:if="${currentPage > 1}">
+                        <a th:href="@{/home(page=0, size=${productPage.getSize()})}">1</a>
+                    </li>
+            
+                    <!-- Hiển thị dấu "..." nếu có nhiều trang phía trước -->
+                    <li th:if="${currentPage > 2}">
+                        <span>...</span>
+                    </li>
+            
+                    <!-- Hiển thị các trang gần trang hiện tại -->
+                    <li th:each="i : ${#numbers.sequence(currentPage - 1, currentPage + 1)}" th:if="${i >= 0 && i < totalPages}">
+                        <a th:href="@{/home(page=${i}, size=${productPage.getSize()})}" 
+                           th:text="${i + 1}"
+                           th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                    </li>
+            
+                    <!-- Hiển thị dấu "..." nếu có nhiều trang phía sau -->
+                    <li th:if="${currentPage < totalPages - 3}">
+                        <span>...</span>
+                    </li>
+            
+                    <!-- Hiển thị trang cuối cùng -->
+                    <li th:if="${currentPage < totalPages - 2}">
+                        <a th:href="@{/home(page=${totalPages - 1}, size=${productPage.getSize()})}">[[${totalPages}]]</a>
+                    </li>
+            
+                    <!-- Nút Next -->
+                    <li th:if="${currentPage < totalPages - 1}">
+                        <a th:href="@{/home(page=${currentPage + 1}, size=${productPage.getSize()})}"><i class="fa-solid fa-chevron-right"></i></a>
+                    </li>
+                </ul>
+            </div>
+            
+            
         </div>
     </section>
     <!-- Featured Section End -->

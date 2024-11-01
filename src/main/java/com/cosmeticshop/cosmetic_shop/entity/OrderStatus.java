@@ -21,7 +21,7 @@ public class OrderStatus {
 
     @Column(name = "changed_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date changedAt;
+    private Date changedAt = new Date();
 
     // Constructors
     public OrderStatus() {

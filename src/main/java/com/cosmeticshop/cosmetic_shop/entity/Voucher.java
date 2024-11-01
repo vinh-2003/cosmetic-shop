@@ -35,7 +35,7 @@ public class Voucher {
 
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private Date createdAt = new Date();
 
     // Constructors
     public Voucher() {

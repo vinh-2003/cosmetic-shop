@@ -36,6 +36,9 @@ public class OrderController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private VoucherService voucherService;
+
     @PostMapping("/start")
     public String startOrder(HttpSession session, Model model) {
         User user = utils.findUserByUserDetail();
@@ -96,7 +99,8 @@ public class OrderController {
     @PostMapping("/confirmOrder")
     @Transactional
     public String showOrderDetail(HttpSession session, Model model) {
-        Order order = (Order) session.getAttribute("order");
+        Order orderSesion = (Order) session.getAttribute("order");
+        Order order = orderService.findById(orderSesion.getOrderId());
 
         // Tạo trạng thái đơn hàng
         OrderStatus orderStatus = new OrderStatus(order, "Chờ xử lý");
@@ -115,6 +119,11 @@ public class OrderController {
             // Cập nhật số lượng mới cho sản phẩm
             product.setStockQuantity(newStockQuantity);
             productService.save(product); // Lưu sản phẩm sau khi cập nhật số lượng
+        }
+
+        Voucher voucher = order.getVoucher();
+        if (voucher != null) {
+            voucherService.updateUsageLimit(order.getVoucher());
         }
 
         // Xóa giỏ hàng của người dùng

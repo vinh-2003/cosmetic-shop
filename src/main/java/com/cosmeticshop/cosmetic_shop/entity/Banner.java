@@ -33,7 +33,7 @@ public class Banner {
 
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private Date createdAt = new Date();
 
     // Constructor
     public Banner() {}

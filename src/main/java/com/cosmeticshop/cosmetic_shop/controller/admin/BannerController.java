@@ -4,6 +4,7 @@ import com.cosmeticshop.cosmetic_shop.entity.Banner;
 import com.cosmeticshop.cosmetic_shop.entity.Category;
 import com.cosmeticshop.cosmetic_shop.service.BannerService;
 import com.cosmeticshop.cosmetic_shop.service.CategoryService;
+import com.cosmeticshop.cosmetic_shop.service.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +22,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin/banners")
 public class BannerController {
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images/categories";
 
     @Autowired
     private BannerService bannerService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping
     public String getBannerList(Model model) {
@@ -44,18 +47,16 @@ public class BannerController {
 
     @PostMapping("/save")
     @Transactional
-    public String saveBanner(Model model, @ModelAttribute("banner") Banner banner,
+    public String saveBanner(@ModelAttribute("banner") Banner banner,
                               @RequestParam("image") MultipartFile file,
                               RedirectAttributes redirectAttributes) {
 
         if (!file.isEmpty()) {
             try {
                 StringBuilder fileNames = new StringBuilder();
-                Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+                String imageUrl = cloudinaryService.uploadFile(file);
                 fileNames.append(file.getOriginalFilename());
-                Files.write(fileNameAndPath, file.getBytes());
-                model.addAttribute("msg", "Uploaded images: " + fileNames.toString());
-                banner.setImageUrl("/images/banners/" + fileNames);
+                banner.setImageUrl(imageUrl);
             } catch (IOException e) {
                 e.printStackTrace();
             }

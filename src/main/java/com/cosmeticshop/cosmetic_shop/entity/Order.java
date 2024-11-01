@@ -26,9 +26,13 @@ public class Order {
     @JoinColumn(name = "address_id", nullable = false)
     private ShippingAddress shippingAddress;
 
+    @OneToOne
+    @JoinColumn(name = "voucher_id")
+    private Voucher voucher = null;
+
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private Date createdAt = new Date();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderStatus> orderStatuses;
@@ -78,6 +82,14 @@ public class Order {
 
     public void setShippingAddress(ShippingAddress shippingAddress) {
         this.shippingAddress = shippingAddress;
+    }
+
+    public Voucher getVoucher() {
+        return voucher;
+    }
+
+    public void setVoucher(Voucher voucher) {
+        this.voucher = voucher;
     }
 
     public Date getCreatedAt() {

@@ -84,10 +84,12 @@ CREATE TABLE orders (
     total DECIMAL(10, 2) NOT NULL,
     current_status_id BIGINT,
     address_id BIGINT NOT NULL,
+    voucher_id BIGINT DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (current_status_id) REFERENCES order_status(status_id),
-    FOREIGN KEY (address_id) REFERENCES shipping_address(address_id)
+    FOREIGN KEY (address_id) REFERENCES shipping_address(address_id),
+    FOREIGN KEY (voucher_id) REFERENCES voucher(voucher_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE order_status (

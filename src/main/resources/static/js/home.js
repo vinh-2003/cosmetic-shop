@@ -161,16 +161,16 @@ function deleteProduct(orderId) {
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken); // Thêm CSRF token vào header
         },
-        success: function() {
+        success: function () {
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
         }
     });
 }
 
 function returnHomeAndCancelOrder(orderId) {
     deleteProduct(orderId);
-    window.location.href='/home';
+    window.location.href = '/home';
 }
 
 function updateCartItemQuantity(cartItemId) {
@@ -192,7 +192,7 @@ function updateCartItemQuantity(cartItemId) {
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken); // Thêm CSRF token vào header
         },
-        success: function(response) {
+        success: function (response) {
             let price = Math.round(response.price);
             let total = Math.round(response.price * response.quantity);
             let cartTotalPrice = Math.round(response.totalOfCartContainThisCartItem);
@@ -202,7 +202,7 @@ function updateCartItemQuantity(cartItemId) {
             $("#cartTotalPrice").text(cartTotalPrice + 'đ')
             // alert("don gia: " + response.price + "Tong tien: " + response.price * response.quantity);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
         }
     });
 }
@@ -255,4 +255,30 @@ function handleInputQuantity(cartItemId) {
         // Gọi hàm cập nhật số lượng trên server
         updateCartItemQuantity(cartItemId);
     }
+}
+
+function handleVoucher(orderId) {
+    let csrfToken = $('meta[name="_csrf"]').attr('content');
+    let csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+    let code = $("#voucher_code").val().trim();
+
+    $.ajax({
+        type: "PUT",
+        url: "/api/orders",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify({ orderId: orderId, code: code }),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function (response) {
+            console.log(response);
+            $("#voucher_respone").text(response.voucherStatus);
+            $("#voucher_discount").text('-' + response.discount + 'đ');
+            $("#decreasedPrice").text(response.total - response.discount + 'đ');
+        },
+        error: function (xhr, status, error) {
+        }
+    });
 }

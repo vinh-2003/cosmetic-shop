@@ -126,40 +126,57 @@
                 </div>
             </div>
             <div>
-                <div class="header__orderItems containerr row" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
+                <div class="header__orderItems containerr row"
+                    style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
                     <p class="col-sm-7 col-8" style="font-weight: bold; text-align: center;">Sản phẩm</p>
                     <p class="header__orderItems__price col-sm-2 col-2" style="text-align: center;">Đơn giá</p>
                     <p class="header__orderItems__quantity col-sm-1 col-2" style="text-align: center;">Số lượng</p>
                     <p class="col-sm-2" style="text-align: center;">Thành tiền</p>
                 </div>
                 <div th:each="orderItem : ${order.orderItems}">
-                    <div class="body__orderItems containerr row" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
+                    <div class="body__orderItems containerr row"
+                        style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
                         <div class="body__orderItems__img col-sm-2 col-2" style="font-weight: bold;">
                             <img th:src="${orderItem.product.imageUrl}" th:alt="${orderItem.product.name}">
                         </div>
                         <p th:text="${orderItem.product.name}" class="col-sm-5 col-6"></p>
-                        <p th:text="${#numbers.formatDecimal(orderItem.price, 0, 0) + 'đ'}" class="body__orderItems__price col-sm-2 col-2"
+                        <p th:text="${#numbers.formatDecimal(orderItem.price, 0, 0) + 'đ'}"
+                            class="body__orderItems__price col-sm-2 col-2" style="text-align: center;"></p>
+                        <p th:text="${orderItem.quantity}" class="body__orderItems__quantity col-sm-1 col-2"
                             style="text-align: center;"></p>
-                        <p th:text="${orderItem.quantity}" class="body__orderItems__quantity col-sm-1 col-2" style="text-align: center;"></p>
                         <p th:text="${#numbers.formatDecimal(orderItem.quantity * orderItem.price, 0, 0) + 'đ'}"
                             class="col-sm-2" style="text-align: center;"></p>
                     </div>
                 </div>
             </div>
-            <div class="containerr" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
-                <p style="font-weight: bold;">Phương thức thanh toán</p>
-                <form>
-                    <div class="row" style="margin: 0px 0px 0px 10px; align-items: center; padding: 5px;">
-                        <input type="radio" id="cod" name="payment_method" checked>
-                        <label style="font-size: 16px; margin-left: 15px;" for="cod">Thanh toán khi nhận
-                            hàng</label>
+            <div class="row" style="margin: 0px; display: flex; justify-content: space-between; align-items: stretch; ">
+                <div class="containerr col-sm-5" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
+                    <p style="font-weight: bold;">Phương thức thanh toán</p>
+                    <form>
+                        <div class="row" style="margin: 0px 0px 0px 10px; align-items: center; padding: 5px;">
+                            <input type="radio" id="cod" name="payment_method" checked>
+                            <label style="font-size: 16px; margin-left: 15px;" for="cod">Thanh toán khi nhận
+                                hàng</label>
+                        </div>
+                        <div class="row" style="margin: 0px 0px 0px 10px; align-items: center; padding: 5px;">
+                            <input type="radio" id="qr" name="payment_method">
+                            <label style="font-size: 16px; margin-left: 15px;" for="qr">Thanh toán bằng mã
+                                QR</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="containerr col-sm-6">
+                    <p style="font-weight: bold;">Mã giảm giá</p>
+                    <div class="row" style="margin: 0px; align-items: center;">
+                        <input id="voucher_code" type="text" class="col-9"
+                            style="border: 1px solid #66ccff; font-size: 16px; border-radius: 5px; padding: 15px; width: 100%;"
+                            placeholder="Nhập mã giảm giá">
+                        <button id="voucher_btn" class="col-3"
+                            style="background-color: #66ccff; color: white; border: 1px solid #66ccff; font-weight: bold; font-size: 16px; border-radius: 5px; padding: 15px; width: 100%; text-align: center;"
+                            th:onclick="|handleVoucher(${order.orderId})|">Xác nhận</button>
                     </div>
-                    <div class="row" style="margin: 0px 0px 0px 10px; align-items: center; padding: 5px;">
-                        <input type="radio" id="qr" name="payment_method">
-                        <label style="font-size: 16px; margin-left: 15px;" for="qr">Thanh toán bằng mã
-                            QR</label>
-                    </div>
-                </form>
+                    <p id="voucher_respone" style="color: #eb3434;"></p>
+                </div>
             </div>
             <div class="row" style="margin: 0px; align-items: center;">
                 <div class="col-sm-7 col-4" style="align-self: self-end; margin: 10px 0;">
@@ -167,10 +184,24 @@
                         style="background-color: gray; color: white; border: 1px solid gray; font-weight: bold; font-size: 16px; border-radius: 5px; padding: 15px; text-align: center; margin: 10px 0;"
                         type="submit" th:onclick="|returnHomeAndCancelOrder(${order.orderId})|">Trở lại</button>
                 </div>
-                <div class="col-sm-5 col-8 containerr" style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
+                <div class="col-sm-5 col-8 containerr"
+                    style="margin: 0px 0px 10px; align-items: center; padding: 10px;">
                     <div class="row" style="margin: 0px; align-items: center;">
-                        <p class="col-sm-5 col-5" style="font-weight: bold;">Tổng tiền:</p>
-                        <p class="col-sm-7 col-7" style="font-weight: 100; color: red; font-weight: bold; text-align: right;"
+                        <p class="col-6" style="font-weight: bold;">Tổng tiền:</p>
+                        <p class="col-6" id="order_total_price"
+                            style="font-weight: 100; color: red; font-weight: bold; text-align: right;"
+                            th:text="${#numbers.formatDecimal(order.total, 0, 0) + 'đ'}"></p>
+                    </div>
+                    <div class="row" style="margin: 0px; align-items: center;">
+                        <p class="col-6" style="font-weight: bold;">Giảm giá:</p>
+                        <p class="col-6" id="voucher_discount"
+                            style="font-weight: 100; color: red; font-weight: bold; text-align: right;"
+                            th:text="${'-0đ'}"></p>
+                    </div>
+                    <div class="row" style="margin: 0px; align-items: center;">
+                        <p class="col-6" style="font-weight: bold;">Thành tiền:</p>
+                        <p class="col-6" id="decreasedPrice"
+                            style="font-weight: 100; color: red; font-weight: bold; text-align: right;"
                             th:text="${#numbers.formatDecimal(order.total, 0, 0) + 'đ'}"></p>
                     </div>
                     <hr>

@@ -4,6 +4,7 @@ import com.cosmeticshop.cosmetic_shop.entity.Category;
 import com.cosmeticshop.cosmetic_shop.entity.Product;
 import com.cosmeticshop.cosmetic_shop.entity.Tag;
 import com.cosmeticshop.cosmetic_shop.service.CategoryService;
+import com.cosmeticshop.cosmetic_shop.service.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +23,11 @@ import java.util.List;
 @RequestMapping("/admin/categories")
 public class CategoryController {
 
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images/categories";
-
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping
     public String getCategoryList(Model model) {
@@ -45,19 +47,17 @@ public class CategoryController {
 
     @PostMapping("/save")
     @Transactional
-    public String saveBanner(Model model, @ModelAttribute("category") Category category,
+    public String saveBanner(@ModelAttribute("category") Category category,
                               @RequestParam("image") MultipartFile file,
                               RedirectAttributes redirectAttributes) {
 
         if (!file.isEmpty()) {
             try {
                 StringBuilder fileNames = new StringBuilder();
-                Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+                String imageUrl = cloudinaryService.uploadFile(file);
                 fileNames.append(file.getOriginalFilename());
-                Files.write(fileNameAndPath, file.getBytes());
-                model.addAttribute("msg", "Uploaded images: " + fileNames.toString());
                 // Lưu đường dẫn của file vào product
-                category.setImageUrl("/images/categories/" + fileNames);
+                category.setImageUrl(imageUrl);
             } catch (IOException e) {
                 e.printStackTrace();
             }

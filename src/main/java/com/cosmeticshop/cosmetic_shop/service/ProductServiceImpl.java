@@ -3,6 +3,9 @@ package com.cosmeticshop.cosmetic_shop.service;
 import com.cosmeticshop.cosmetic_shop.entity.Product;
 import com.cosmeticshop.cosmetic_shop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,5 +52,8 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByNameContainingIgnoreCase(name);
     }
 
-
+    @Override
+    public Page<Product> getProductsByPage(int pageNumber, int pageSize) {
+        return productRepository.findAll(PageRequest.of(pageNumber, pageSize));
+    }
 }

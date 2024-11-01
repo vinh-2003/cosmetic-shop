@@ -1,10 +1,9 @@
 package com.cosmeticshop.cosmetic_shop.service;
 
 import com.cosmeticshop.cosmetic_shop.dto.OrderStatusDTO;
+import com.cosmeticshop.cosmetic_shop.dto.OrderVoucherStatusDTO;
 import com.cosmeticshop.cosmetic_shop.entity.*;
 import com.cosmeticshop.cosmetic_shop.repository.OrderRepository;
-import com.cosmeticshop.cosmetic_shop.repository.OrderStatusRepository;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +28,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CartItemService cartItemService;
 
+    @Autowired
+    private VoucherService voucherService;
+
     @Override
     public void save(Order order) {
         orderRepository.save(order);
@@ -42,8 +44,6 @@ public class OrderServiceImpl implements OrderService {
         // Tạo trạng thái đơn hàng mới
         OrderStatus orderStatus = new OrderStatus();
         orderStatus.setStatus("Đang tạo"); // Trạng thái mặc định cho đơn hàng
-
-
 
         // Tạo đơn hàng mới
         Order order = new Order();
@@ -61,15 +61,7 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setOrderItems(orderItems); // Gán danh sách OrderItem cho đơn hàng
 
-//         Lưu OrderStatus vào cơ sở dữ liệu trước
-
-
         order.add(orderStatus);
-
-//        // Lưu đơn hàng vào cơ sở dữ liệu
-//        orderRepository.save(order);
-//
-//        orderStatusService.save(orderStatus); // Lưu trạng thái đơn hàng vào DB
 
         return orderRepository.save(order); // Trả về đơn hàng đã tạo
     }
@@ -127,5 +119,42 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void deleteById(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public OrderVoucherStatusDTO setVoucherForOrder(OrderVoucherStatusDTO orderVoucherStatusDTO) {
+        Order order = orderRepository.findById(orderVoucherStatusDTO.getOrderId()).orElse(null);
+        Voucher voucher = voucherService.findByCode(orderVoucherStatusDTO.getCode());
+
+        if (voucher == null) {
+            order.setVoucher(null);
+            orderRepository.save(order);
+            orderVoucherStatusDTO.setTotal(order.getTotal());
+            orderVoucherStatusDTO.setDiscount(0);
+            orderVoucherStatusDTO.setVoucherStatus("Mã giảm giá không hợp lệ!");
+            return orderVoucherStatusDTO;
+        } else if (voucher.getUsageLimit() == 0) {
+            order.setVoucher(null);
+            orderRepository.save(order);
+            orderVoucherStatusDTO.setTotal(order.getTotal());
+            orderVoucherStatusDTO.setDiscount(0);
+            orderVoucherStatusDTO.setVoucherStatus("Mã giảm giá hết lượt sử dụng!");
+            return orderVoucherStatusDTO;
+        } else if (order.getTotal().compareTo(voucher.getMinPurchase()) < 0) {
+            order.setVoucher(null);
+            orderRepository.save(order);
+            orderVoucherStatusDTO.setTotal(order.getTotal());
+            orderVoucherStatusDTO.setDiscount(0);
+            orderVoucherStatusDTO.setVoucherStatus("Giá trị đơn hàng không đủ để sử dụng mã này!");
+            return orderVoucherStatusDTO;
+        } else {
+            order.setVoucher(voucher);
+            orderRepository.save(order);
+            orderVoucherStatusDTO.setTotal(order.getTotal());
+            orderVoucherStatusDTO.setDiscount(voucher.getDiscount());
+            orderVoucherStatusDTO.setVoucherStatus("Đã áp dụng giảm giá " + voucher.getDiscount() + "đ");
+            return orderVoucherStatusDTO;
+        }
     }
 }
